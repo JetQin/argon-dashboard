@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-admin-layout',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminLayoutComponent implements OnInit {
 
-  constructor() { }
+  @Input() isCollapsed = true;
+
+  constructor(private router: Router) { }
 
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      console.log('Admin Layout' + this.isCollapsed);
+      this.isCollapsed = true;
+    });
+  }
+
+  updateCollapsed(event) {
+    console.log(event);
+    this.isCollapsed = event;
   }
 
 }

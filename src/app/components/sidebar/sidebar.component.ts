@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { Router } from '@angular/router';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 declare interface RouteInfo {
     path: string;
@@ -22,7 +23,7 @@ export class SidebarComponent implements OnInit {
 
   public menuItems: any[];
   public isCollapsed = true;
-
+  @Output() emitter = new EventEmitter<boolean>();
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -31,4 +32,11 @@ export class SidebarComponent implements OnInit {
       this.isCollapsed = true;
    });
   }
+
+  toggleMenu() {
+    this.isCollapsed = !this.isCollapsed;
+    this.emitter.emit(this.isCollapsed);
+  }
+
+
 }

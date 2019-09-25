@@ -12,7 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NzIconModule, NZ_ICONS, NZ_I18N, en_US } from 'ng-zorro-antd';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 
@@ -29,14 +29,18 @@ registerLocaleData(en);
     NgbModule,
     RouterModule,
     AppRoutingModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    NzIconModule
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    { provide: NZ_ICONS, useValue: '#00ff00' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

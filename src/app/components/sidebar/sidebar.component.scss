@@ -1,4 +1,38 @@
+.menu-toggle {
+  margin-left: auto!important;
+}
+
+[nz-icon] {
+  font-size: 24px;
+}
+
+.nav-container {
+  height: auto;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  max-height: 387px;
+}
+
 .navbar-toggler-icon {
   margin-right: 20px;
   margin-left: -1em;
 }
+
+.sidenav-toggler-inner {
+  position: relative;
+  width: 18px;
+  transition: all .15s ease;
+
+  sidenav-toggler-line {
+    position: relative;
+    display: block;
+    height: 2px;
+    background-color: #172b4d;
+  }
+
+  sidenav-toggler-line {
+    width: 18px;
+    transition: all .15s ease;
+  }
+}
+

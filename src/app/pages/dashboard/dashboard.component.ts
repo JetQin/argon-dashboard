@@ -7,7 +7,7 @@ import {
   parseOptions,
   chartExample1,
   chartExample2
-} from "../../variables/charts";
+} from '../../variables/charts';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,8 +19,8 @@ export class DashboardComponent implements OnInit {
   public datasets: any;
   public data: any;
   public salesChart;
-  public clicked: boolean = true;
-  public clicked1: boolean = false;
+  public clicked = true;
+  public clicked1 = false;
 
   constructor() { }
 
@@ -33,23 +33,28 @@ export class DashboardComponent implements OnInit {
     this.data = this.datasets[0];
 
 
-    var chartOrders = document.getElementById('chart-orders');
+    const chartOrders = document.getElementById('chart-orders');
 
     parseOptions(Chart, chartOptions());
 
 
-    var ordersChart = new Chart(chartOrders, {
+    const ordersChart = new Chart(chartOrders, {
       type: 'bar',
       options: chartExample2.options,
       data: chartExample2.data
     });
 
-    var chartSales = document.getElementById('chart-sales');
+    // tslint:disable-next-line:prefer-const
+    const chartSales = document.getElementById('chart-sales');
 
     this.salesChart = new Chart(chartSales, {
+      // tslint:disable-next-line:indent
 			type: 'line',
+      // tslint:disable-next-line:indent
 			options: chartExample1.options,
+      // tslint:disable-next-line:indent
 			data: chartExample1.data
+      // tslint:disable-next-line:indent
 		});
   }
 
