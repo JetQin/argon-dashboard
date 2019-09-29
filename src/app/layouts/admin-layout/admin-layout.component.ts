@@ -14,7 +14,6 @@ export class AdminLayoutComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
-      console.log('Admin Layout' + this.isCollapsed);
       this.isCollapsed = true;
     });
   }

@@ -1,8 +1,10 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { JwtModule } from '@auth0/angular-jwt';
+import { JwtService } from './service/jwt.service';
 
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
@@ -18,6 +20,9 @@ import en from '@angular/common/locales/en';
 
 registerLocaleData(en);
 
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   imports: [
@@ -30,7 +35,14 @@ registerLocaleData(en);
     RouterModule,
     AppRoutingModule,
     NgZorroAntdModule,
-    NzIconModule
+    NzIconModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost'],
+        blacklistedRoutes: ['example.com/examplebadroute/']
+      }
+    })
   ],
   declarations: [
     AppComponent,
@@ -39,7 +51,8 @@ registerLocaleData(en);
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
-    { provide: NZ_ICONS, useValue: '#00ff00' }
+    { provide: NZ_ICONS, useValue: '#00ff00' },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

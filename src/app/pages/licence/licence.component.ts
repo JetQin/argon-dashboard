@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { LicenseService } from '../../service/license.service';
+import {License} from '../../model/license';
 
 @Component({
   selector: 'app-licence',
@@ -9,38 +13,68 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class LicenceComponent implements OnInit {
 
-  license = [
-    {
-      licenseName: 'Angular License',
-      description: 'This is a payment license',
-      status: 'Activated',
-      createdBy: 'Jet Qin',
-      expiredAt: '2019/10/09'
-    },
-    {
-      licenseName: 'Angular License',
-      description: 'This is a payment license',
-      status: 'Activated',
-      createdBy: 'Jet Qin',
-      expiredAt: '2019/10/09'
-    }
-    ,
-    {
-      licenseName: 'Angular License',
-      description: 'This is a payment license',
-      status: 'Activated',
-      createdBy: 'Jet Qin',
-      expiredAt: '2019/10/09'
-    }
+  license = [];
 
-  ]
-  constructor() { }
+  current: License;
 
-  ngOnInit() {
+  isVisible = false;
+
+  total = 0;
+
+  pageIndex = 0;
+
+  pageSize = 10;
+
+  validateForm: FormGroup;
+
+  constructor(private licenseService: LicenseService,
+              private fb: FormBuilder) {}
+
+  submitForm(): void {
+    // this.validateForm.get()
+    console.log(this.validateForm.value);
+    this.licenseService.create(this.validateForm.value)
+      .subscribe(resp => {
+        console.log(resp);
+      }
+    );
   }
 
-  handleNewLicense() {
-    console.log('New License');
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+
+  handleEdit(): void {
+    console.log('handle edit');
+  }
+
+  handleDelete(licenseId: string): void {
+    console.log(licenseId);
+    this.licenseService.delete(licenseId)
+      .subscribe( resp => {
+        console.log(resp);
+      });
+
+  }
+
+  ngOnInit() {
+    this.validateForm = this.fb.group({
+      licenseName: [null],
+      licenseDescription: [null],
+      expiredTime: [null],
+    });
+    this.listAllLicense();
+  }
+
+  listAllLicense() {
+    this.licenseService.list().subscribe(resp => {
+      this.total = resp.totalElements;
+      this.license = resp.content;
+      this.pageIndex = resp.page;
+      this.pageSize = resp.size;
+      console.log(this.license);
+    });
   }
 
 }

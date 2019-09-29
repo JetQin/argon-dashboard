@@ -6,71 +6,83 @@
 </div>
 <!-- Page content -->
 <div class="container-fluid mt--7">
-  <!-- Dark table -->
   <div class="row mt-5">
     <div class="col">
-      <div class="btn btn-info" (click)="handleNewLicense()">New License</div>
-      <div class="card bg-default shadow">
-        <div class="card-header bg-transparent border-0">
-          <h3 class="text-white mb-0">License Details</h3>
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Creaate New License</h3>
         </div>
         <div class="table-responsive">
-          <table class="table align-items-center table-dark table-flush">
-            <thead class="thead-dark">
-            <tr>
-              <th scope="col">License Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Status</th>
-              <th scope="col">Created By</th>
-              <th scope="col">Expired At</th>
-              <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of license">
-                <td>{{item.licenseName}}</td>
-                <th scope="row">
-                  <div class="media-body">
-                    <span class="mb-0 text-sm">{{ item.licenseName }}</span>
-                  </div>
-                </th>
-                <td>
-                  {{ item.description }}
-                </td>
-                <td>
-                    <span class="badge badge-dot mr-4">
-                      <i class="bg-warning"></i> {{item.status}}
-                    </span>
-                </td>
-                <td>
-                  <div class="avatar-group">
-                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">
-                    </a>
-                    {{ item.createdBy }}
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                   {{ item.expiredAt }}
-                  </div>
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
-                    <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                      <a class="dropdown-item" href="javascript:void(0)">Remove</a>
-                      <a class="dropdown-item" href="javascript:void(0)">Edit</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >License Name</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid license name!">
+                <input nz-input formControlName="licenseName" id="licenseName" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >License Description</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid license description!">
+                <input nz-input formControlName="licenseDescription" id="licenseDescription" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >Expired Date</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid expired time!">
+                <nz-date-picker formControlName="expiredTime" nzFormat="MM/dd/yyyy HH:mm:SS"></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 16, offset: 8 }">
+                <button nz-button nzType="primary">Save</button>
+                <button nz-button nzType="primary">Cancel</button>
+              </nz-form-control>
+            </nz-form-item>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </div>
+<div class="container-fluid">
+  <div class="row mt-5">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">License Details</h3>
+        </div>
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="24">
+            <nz-table #basicTable [nzData]="license">
+              <thead>
+              <tr>
+                <th>License Name</th>
+                <th>Description</th>
+                <th>Store Path</th>
+                <th>Created By</th>
+                <th>Expire Time</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let data of basicTable.data">
+                <td>{{ data.licenseName }}</td>
+                <td>{{ data.licenseDescription }}</td>
+                <td>{{ data.licensePath }}</td>
+                <td>{{ data.createdBy }}</td>
+                <td>{{ data.expireTime }}</td>
+                <td>
+                  <a (click)="handleEdit()">Edit</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a (click)="handleDelete(data.id)">Delete</a>
+                </td>
+              </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

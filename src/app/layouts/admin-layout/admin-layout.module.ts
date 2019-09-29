@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -12,6 +13,7 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {LicenceComponent} from '../../pages/licence/licence.component';
 import {ContractComponent} from '../../pages/contract/contract.component';
+import {NgZorroAntdModule, NzTableModule} from 'ng-zorro-antd';
 
 
 @NgModule({
@@ -21,7 +23,10 @@ import {ContractComponent} from '../../pages/contract/contract.component';
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    NzTableModule,
+    NgZorroAntdModule,
+    ReactiveFormsModule
   ],
   declarations: [
     DashboardComponent,
