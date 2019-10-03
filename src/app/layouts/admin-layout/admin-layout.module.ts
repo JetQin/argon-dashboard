@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {LicenceComponent} from '../../pages/licence/licence.component';
 import {ContractComponent} from '../../pages/contract/contract.component';
 import {NgZorroAntdModule, NzTableModule} from 'ng-zorro-antd';
+import {PdfViewerModule} from 'ng2-pdf-viewer';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {NgZorroAntdModule, NzTableModule} from 'ng-zorro-antd';
     ClipboardModule,
     NzTableModule,
     NgZorroAntdModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PdfViewerModule
   ],
   declarations: [
     DashboardComponent,

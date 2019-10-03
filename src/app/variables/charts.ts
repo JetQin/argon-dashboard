@@ -5,10 +5,11 @@ import Chart from 'chart.js';
 //
 
 Chart.elements.Rectangle.prototype.draw = function() {
-  var ctx = this._chart.ctx;
-  var vm = this._view;
-  var left, right, top, bottom, signX, signY, borderSkipped, radius;
-  var borderWidth = vm.borderWidth;
+  let ctx = this._chart.ctx;
+  let vm = this._view;
+  // @ts-ignore
+  let left, right, top, bottom, signX, signY, borderSkipped, radius;
+  let borderWidth = vm.borderWidth;
   // Set Radius Here
   // If radius is large enough to cause drawing errors a max radius is imposed
   var cornerRadius = 6;
@@ -98,7 +99,7 @@ Chart.elements.Rectangle.prototype.draw = function() {
     let x = corners[1][0];
     let y = corners[1][1];
     // eslint-disable-next-line
-    var radius: any = cornerRadius;
+    radius = cornerRadius;
 
     // Fix radius being too large
     if (radius > height / 2) {
@@ -125,13 +126,13 @@ Chart.elements.Rectangle.prototype.draw = function() {
   }
 };
 
-var mode = 'light';//(themeMode) ? themeMode : 'light';
-var fonts = {
+const mode = 'light';//(themeMode) ? themeMode : 'light';
+const fonts = {
   base: 'Open Sans'
 }
 
 // Colors
-var colors = {
+const colors = {
   gray: {
     100: '#f6f9fc',
     200: '#e9ecef',
@@ -160,13 +161,16 @@ var colors = {
 export function chartOptions() {
 
   // Options
-  var options = {
+  // @ts-ignore
+  const options = {
     defaults: {
       global: {
         responsive: true,
         maintainAspectRatio: false,
-        defaultColor: (mode == 'dark') ? colors.gray[700] : colors.gray[600],
-        defaultFontColor: (mode == 'dark') ? colors.gray[700] : colors.gray[600],
+        // defaultColor: (mode === 'dark') ? colors.gray[700] : colors.gray[600],
+        // defaultFontColor: (mode === 'dark') ? colors.gray[700] : colors.gray[600],
+        defaultColor: colors.gray[700],
+        defaultFontColor: colors.gray[700],
         defaultFontFamily: fonts.base,
         defaultFontSize: 13,
         layout: {
@@ -197,7 +201,7 @@ export function chartOptions() {
           },
           arc: {
             backgroundColor: colors.theme['primary'],
-            borderColor: (mode == 'dark') ? colors.gray[800] : colors.white,
+            borderColor: colors.gray[800],
             borderWidth: 4
           }
         },
@@ -210,11 +214,11 @@ export function chartOptions() {
       doughnut: {
         cutoutPercentage: 83,
         legendCallback: function(chart) {
-          var data = chart.data;
-          var content = '';
+          const data = chart.data;
+          let content = '';
 
           data.labels.forEach(function(label, index) {
-            var bgColor = data.datasets[0].backgroundColor[index];
+            const bgColor = data.datasets[0].backgroundColor[index];
 
             content += '<span class="chart-legend-item">';
             content += '<i class="chart-legend-indicator" style="background-color: ' + bgColor + '"></i>';
@@ -233,12 +237,12 @@ export function chartOptions() {
     gridLines: {
       borderDash: [2],
       borderDashOffset: [2],
-      color: (mode == 'dark') ? colors.gray[900] : colors.gray[300],
+      color: colors.gray[900],
       drawBorder: false,
       drawTicks: false,
       lineWidth: 0,
       zeroLineWidth: 0,
-      zeroLineColor: (mode == 'dark') ? colors.gray[900] : colors.gray[300],
+      zeroLineColor: colors.gray[900],
       zeroLineBorderDash: [2],
       zeroLineBorderDashOffset: [2]
     },
@@ -247,7 +251,7 @@ export function chartOptions() {
       padding: 10,
       callback: function(value) {
         if (!(value % 10)) {
-          return value
+          return value;
         }
       }
     }
@@ -290,8 +294,8 @@ export const chartExample1 = {
         },
         ticks: {
           callback: function(value) {
-            if (!(value % 10)) {
-              return '$' + value + 'k';
+            if (!(value)) {
+              return '';
             }
           }
         }
@@ -314,8 +318,7 @@ export const chartExample2 = {
         {
           ticks: {
             callback: function(value) {
-              if (!(value % 10)) {
-                //return '$' + value + 'k'
+              if (!(value)) {
                 return value;
               }
             }

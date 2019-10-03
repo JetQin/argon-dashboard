@@ -13,7 +13,7 @@
           <h3 class="mb-0">Creaate New License</h3>
         </div>
         <div class="table-responsive">
-          <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+          <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" ngFormOptions="multipart/form-data">
             <nz-form-item>
               <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >License Name</nz-form-label>
               <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid license name!">
@@ -27,9 +27,18 @@
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >License File</nz-form-label>
+              <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The license file can't be empty!">
+                <nz-upload [(nzFileList)]="files" [nzBeforeUpload]="beforeUpload">
+                  <button nz-button><i nz-icon nzType="upload"></i><span>Select File</span></button>
+                </nz-upload>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
               <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >Expired Date</nz-form-label>
               <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid expired time!">
-                <nz-date-picker formControlName="expiredTime" nzFormat="MM/dd/yyyy HH:mm:SS"></nz-date-picker>
+<!--                <input type="hidden" formControlName="expiredTime" [ngModel]="expiredTime" />-->
+                <nz-date-picker formControlName="expiredTime" [nzDisabledDate]="disabledDate" nzFormat="MM/dd/yyyy"></nz-date-picker>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
@@ -44,6 +53,7 @@
     </div>
   </div>
 </div>
+
 <div class="container-fluid">
   <div class="row mt-5">
     <div class="col">
@@ -53,7 +63,18 @@
         </div>
         <div nz-row nzType="flex" nzJustify="center">
           <div nz-col nzSpan="24">
-            <nz-table #basicTable [nzData]="license">
+            <nz-table #basicTable
+                      [nzFrontPagination]="false"
+                      [nzData]="license"
+                      [nzLoading]="loading"
+                      [nzPageSizeOptions]="pageOptions"
+                      [(nzPageIndex)]="pageIndex"
+                      [(nzPageSize)]="pageSize"
+                      [nzTotal]="total"
+                      [nzShowSizeChanger]="true"
+                      [nzShowTotal]="totalTemplate"
+                      (nzPageIndexChange)="handlePageChnage()"
+                       >
               <thead>
               <tr>
                 <th>License Name</th>
@@ -70,15 +91,35 @@
                 <td>{{ data.licenseDescription }}</td>
                 <td>{{ data.licensePath }}</td>
                 <td>{{ data.createdBy }}</td>
-                <td>{{ data.expireTime }}</td>
+                <td>{{ data.expiredTime }}</td>
                 <td>
-                  <a (click)="handleEdit()">Edit</a>
+                  <button nz-button nzType="primary" (click)="showModal()">Preview</button>
                   <nz-divider nzType="vertical"></nz-divider>
-                  <a (click)="handleDelete(data.id)">Delete</a>
+                  <button nz-button nzType="primary" (click)="handleDownload(data.id)">Download</button>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <button nz-button nzType="primary" (click)="handleDelete(data.id)">Delete</button>
                 </td>
               </tr>
               </tbody>
             </nz-table>
+            <ng-template #totalTemplate let-total> Total {{ total }} items </ng-template>
+            <div>
+              <nz-modal
+                [(nzVisible)]="isVisible"
+                [nzStyle]="{ top: '20px' }"
+                nzTitle="License Detail"
+                nzOkText="Ok"
+                nzCancelText="Cancel"
+                nzWidth="800"
+                (nzOnOk)="handleOk()"
+                (nzOnCancel)="handleCancel()"
+              >
+                <pdf-viewer [src]="pdfSrc"
+                            [render-text]="true"
+                            style="display: block;"
+                ></pdf-viewer>
+              </nz-modal>
+            </div>
           </div>
         </div>
       </div>

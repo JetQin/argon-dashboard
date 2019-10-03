@@ -11,7 +11,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { NgZorroAntdModule, NzIconModule, NZ_ICONS, NZ_I18N, en_US } from 'ng-zorro-antd';
@@ -36,6 +36,7 @@ export function tokenGetter() {
     AppRoutingModule,
     NgZorroAntdModule,
     NzIconModule,
+    PdfViewerModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

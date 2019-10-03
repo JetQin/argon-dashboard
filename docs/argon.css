@@ -3448,6 +3448,12 @@ fieldset:disabled a.btn
 .btn-darker:not(:disabled):not(.disabled).active:focus,
 .show > .btn-darker.dropdown-toggle:focus
 {
+}
+
+.btn-darker:not(:disabled):not(.disabled):active:focus,
+.btn-darker:not(:disabled):not(.disabled).active:focus,
+.show > .btn-darker.dropdown-toggle:focus
+{
   box-shadow: none, 0 0 0 0 rgba(0, 0, 0, .5);
 }
 
